@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WashParts — Запчастини для пральних машин</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #1a365d;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .cart-btn {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+        }
+
+            .cart-btn:hover {
+                background-color: #0369a1;
+            }
+
+        .cart-count {
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+            .hero h1 {
+                font-size: 2.2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .hero p {
+                color: #94a3b8;
+                margin-bottom: 1.5rem;
+            }
+
+        .filter-section {
+            background: white;
+            max-width: 900px;
+            margin: -2rem auto 2rem auto;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+            .product-card:hover {
+                transform: translateY(-4px);
+            }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .product-info {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-brand {
+            font-size: 0.75rem;
+            color: #0284c7;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0.3rem 0;
+        }
+
+        .product-oem {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .product-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .add-to-cart {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+            .add-to-cart:hover {
+                background-color: #059669;
+            }
+
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">⚙️ WashParts</div>
+        <button class="cart-btn" onclick="alert('Кошик відкрити!')">
+            🛒 Кошик <span class="cart-count" id="cart-count">0</span>
+        </button>
+    </header>
+
+    <section class="hero">
+        <h1>Запчастини для пральних машин</h1>
+        <p>Оригінальні комплектуючі та якісні аналоги з доставкою по Україні</p>
+    </section>
+
+    <div class="container">
+        <!-- Фільтр підбору -->
+        <div class="filter-section">
+            <div class="filter-group">
+                <label>Бренд техніки</label>
+                <select id="brand-select" onchange="filterProducts()">
+                    <option value="all">Усі бренди</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="LG">LG</option>
+                    <option value="Indesit">Indesit / Ariston</option>
+                    <option value="Bosch">Bosch / Siemens</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Категорія деталі</label>
+                <select id="category-select" onchange="filterProducts()">
+                    <option value="all">Усі категорії</option>
+                    <option value="ТЕН">ТЕНи (нагрівачі)</option>
+                    <option value="Помпа">Насоси (помпи)</option>
+                    <option value="Ремінь">Ремені приводу</option>
+                    <option value="Підшипник">Підшипники та сальники</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Пошук за кодом (OEM)</label>
+                <input type="text" id="search-input" placeholder="Наприклад: DC64-01530A..." oninput="filterProducts()">
+            </div>
+        </div>
+
+        <!-- Сітка товарів -->
+        <div class="products-grid" id="products-grid">
+            <!-- Товари завантажуються динамічно через JS -->
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 WashParts. Всі права захищені. Продаж оригінальних запчастин для побутової техніки.</p>
+    </footer>
+
+    <script>
+        const products = [
+        { id: 1, title: "ТЕН 1900W з отвором під датчик", brand: "Samsung", category: "ТЕН", oem: "DC47-00006B", price: 450 },
+        { id: 2, title: "Зливний насос (помпа) Askoll 40W", brand: "LG", category: "Помпа", oem: "5859EN1004B", price: 380 },
+        { id: 3, title: "Ремінь приводу 1270 J3", brand: "Indesit", category: "Ремінь", oem: "C00092162", price: 220 },
+        { id: 4, title: "Комплект підшипників 6205-6206 + сальник", brand: "Bosch", category: "Підшипник", oem: "172686", price: 590 },
+        { id: 5, title: "ТЕН 1700W прямий", brand: "Bosch", category: "ТЕН", oem: "267512", price: 480 },
+        { id: 6, title: "Зливна помпа на 3 саморізи", brand: "Samsung", category: "Помпа", oem: "DC31-00030A", price: 340 }
+        ];
+
+        let cartCount = 0;
+
+        function renderProducts(items) {
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = '';
+
+        if (items.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #64748b;">Товарів не знайдено</p>';
+        return;
+        }
+
+        items.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+        <div class="product-img">📷 Зображення деталі</div>
+        <div class="product-info">
+        <span class="product-brand">${product.brand}</span>
+        <div class="product-title">${product.title}</div>
+        <div class="product-oem">Артикул: ${product.oem}</div>
+        <div class="product-footer">
+        <span class="product-price">${product.price} грн</span>
+        <button class="add-to-cart" onclick="addToCart()">Купити</button>
+        </div>
+        </div>
+        `;
+        grid.appendChild(card);
+        });
+        }
+
+        function filterProducts() {
+        const brand = document.getElementById('brand-select').value;
+        const category = document.getElementById('category-select').value;
+        const query = document.getElementById('search-input').value.toLowerCase();
+
+        const filtered = products.filter(p => {
+        const matchBrand = (brand === 'all' || p.brand === brand);
+        const matchCategory = (category === 'all' || p.category === category);
+        const matchQuery = p.title.toLowerCase().includes(query) || p.oem.toLowerCase().includes(query);
+        return matchBrand && matchCategory && matchQuery;
+        });
+
+        renderProducts(filtered);
+        }
+
+        function addToCart() {
+        cartCount++;
+        document.getElementById('cart-count').innerText = cartCount;
+        }
+
+        // Початкова ініціалізація
+        renderProducts(products);
+    </script>
+
+</body>
+</html>
